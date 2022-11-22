@@ -1,10 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieLover.Models;
 using System;
 using System.Collections.Generic;
 
 public class MovieLoverContext : DbContext
 {
     public string DbPath { get; }
+    public DbSet<RegisterModel> Registers { get; set; }
+
+
+
+
 
     public MovieLoverContext()
     {
