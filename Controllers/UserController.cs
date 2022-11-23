@@ -18,11 +18,15 @@ namespace MovieLover.Controllers
         [HttpPost]
         public IActionResult Register(RegisterModel register)
         {
-            using (var db = new MovieLoverContext())
+            if (ModelState.IsValid)
             {
-                db.Add(register);
-                db.SaveChanges();
-            };
+                using (var db = new MovieLoverContext())
+                {
+                    db.Add(register);
+                    db.SaveChanges();
+                }
+            }
+
             return View();
         }
 
