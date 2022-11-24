@@ -6,9 +6,9 @@ namespace MovieLover.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage ="Wrong username or/and password")]
+        [Required(ErrorMessage ="Please enter Your email")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Wrong username or/and password")]
+        [Required(ErrorMessage = "Please enter Your password")]
         public string Password { get; set; }
         
     }
