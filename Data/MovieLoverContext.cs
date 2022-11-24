@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieLover.Data;
 using MovieLover.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ public class MovieLoverContext : DbContext
 {
     public string DbPath { get; }
     public DbSet<RegisterModel> Registers { get; set; }
-
+    public DbSet<MovieModel> Movies { get; set; }
 
 
 
@@ -16,7 +17,7 @@ public class MovieLoverContext : DbContext
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "MovieLoverDB.db");
+        DbPath = System.IO.Path.Join(path, "MovieLoverDB.db"); // my path: C:\Users\Fifi\AppData\Local
     }
 
     // The following configures EF to create a Sqlite database file in the
