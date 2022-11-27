@@ -6,7 +6,9 @@ namespace MovieLover.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var db = new MovieLoverContext();
+            var data = db.Movies.ToList();
+            return View(data);
         }
     }
 }

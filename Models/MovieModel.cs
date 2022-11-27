@@ -12,5 +12,6 @@ namespace MovieLover.Models
         public double Price { get; set; }
         public DateTime ReleaseDate { get; set; }
         public MovieCategory MovieCategory { get; set; }
+        public string ImageURL { get; set; }
     }
 }
