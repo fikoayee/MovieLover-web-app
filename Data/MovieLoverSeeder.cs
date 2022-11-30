@@ -4,23 +4,25 @@ namespace MovieLover.Data
 {
     public class MovieLoverSeeder
     {
-        public static void Seed()
+        public static void Seed(IApplicationBuilder applicationBuilder)
         {
-            using (var context = new MovieLoverContext())
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
+                var context = serviceScope.ServiceProvider.GetService<MovieLoverContext>();
                 context.Database.EnsureCreated();
 
                 if (!context.Movies.Any())
                 {
                     context.Movies.AddRange(new List<MovieModel>()
-                    {   new MovieModel()
+                    {
+                        new MovieModel()
                         {
                         Name = "Shrek",
                         MovieCategory = MovieCategory.ForKids,
                         Description = "Shrek Shrek Shrek Shrek",
                         ReleaseDate = new DateTime(2001, 05, 18),
                         Price = 3.99,
-                        ImageURL = "https://static.wikia.nocookie.net/shrek/images/8/85/Shrek_2001_poster.jpg/revision/latest?cb=20201020072731"
+                        ImageURL = "https://i-viaplay-com.akamaized.net/viaplay-prod/993/800/1613762117-f07774c22a81b35740522f9e1b18e1e03331bc19.jpg?width=400&height=600"
                         },
                         new MovieModel()
                         {
@@ -29,7 +31,7 @@ namespace MovieLover.Data
                             Description = "Shrek 2 Shrek 2 Shrek 2",
                             ReleaseDate = new DateTime(2004, 05, 19),
                             Price = 6.99,
-                            ImageURL = "https://static.wikia.nocookie.net/dreamworks-polska/images/f/ff/Shrek_2.jpg/revision/latest?cb=20170212075406&path-prefix=pl"
+                            ImageURL = "https://a.allegroimg.com/original/11226c/61dac14a45ecb4cff63540b7ad16/SHREK-2-DVD"
                         },
                         new MovieModel()
                         {
@@ -53,7 +55,9 @@ namespace MovieLover.Data
                     context.SaveChanges();
                 }
 
+
             }
         }
     }
+
 }
