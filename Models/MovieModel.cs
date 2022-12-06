@@ -1,5 +1,6 @@
 ﻿using MovieLover.Data;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieLover.Models
 {
@@ -9,12 +10,21 @@ namespace MovieLover.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [Required(ErrorMessage = "The value is invalid.")]
+        //[RegularExpression(@"^[0-9]{1,2}([,.][0-9]{1,2})?$", ErrorMessage = "The value is not valid")]
         public double Price { get; set; }
         [Display(Name = "Release Date")]
         [Required(ErrorMessage = "Date is required")]
         public DateTime ReleaseDate { get; set; }
         public MovieCategory MovieCategory { get; set; }
         public string ImageURL { get; set; }
+        //public int MovieLength { get; set; }
+
+        //relationships
+        public List<ActorMovieModel>? ActorsMovies { get; set; }
+
+        //producer
+        public int ProducerId { get; set; }
+        [ForeignKey("ProducerId")]
+        public ProducerModel? Producer { get; set; }
     }
 }

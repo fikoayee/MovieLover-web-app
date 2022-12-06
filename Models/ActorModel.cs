@@ -16,5 +16,8 @@ namespace MovieLover.Models
         [RegularExpression(@"^[a-zA-Z]{1,20}$", ErrorMessage = "This field must contain only letters. Please try again.")]
         public string PlaceOfBirthCountry { get; set; }
         public string ImageURL { get; set; }
+
+        //relationhsips
+        public List<ActorMovieModel> ActorsMovies { get; set; }
     }
 }

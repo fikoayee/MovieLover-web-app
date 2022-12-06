@@ -4,9 +4,11 @@ namespace MovieLover.Data.Services
 {
     public interface IMovieService
     {
-        IEnumerable<MovieModel> GetAll();
-        MovieModel GetById(int id);
-        void Add(MovieModel movie);
+        Task<IEnumerable<MovieModel>> GetAllAsync();
+        Task<MovieModel> GetByIdAsync(int id);
+        Task AddAsync(MovieModel movie);
+        Task<MovieModel> UpdateAsync(int id, MovieModel movie);
+        Task DeleteAsync(int id);
 
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MovieLover.Models;
 
 namespace MovieLover.Data.Services
@@ -11,32 +12,36 @@ namespace MovieLover.Data.Services
             _context = context;
         }
 
-        public void Add(MovieModel movie)
+        public async Task AddAsync(MovieModel movie)
         {
-            _context.Movies.Add(movie);
-            _context.SaveChanges();
+            await _context.Movies.AddAsync(movie);
+            await _context.SaveChangesAsync();
         }
 
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<MovieModel> GetAll()
+        public async Task <IEnumerable<MovieModel>> GetAllAsync()
         {
             var result = _context.Movies.ToList();
             return result;
         }
 
-        public MovieModel GetById(int id)
+        public async Task<MovieModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            return result;
         }
 
-        public MovieModel Update(int id, MovieModel newMovie)
+        public async Task<MovieModel> UpdateAsync(int id, MovieModel newMovie)
         {
-            throw new NotImplementedException();
+            _context.Movies.Update(newMovie);
+            await _context.SaveChangesAsync();
+            return newMovie;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var result = _context.Movies.FirstOrDefault(m => m.Id == id);
+            _context.Movies.Remove(result);
+            await _context.SaveChangesAsync();
         }
     }
 }
