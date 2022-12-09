@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MovieLover.Data.Base;
+using MovieLover.Data.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieLover.Models
 {
-    public class ProducerModel
+    public class ProducerModel : IEntityBase
     {
         [Key]
         public int Id { get; set; }

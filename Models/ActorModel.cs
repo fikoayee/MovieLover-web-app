@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MovieLover.Data.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieLover.Models
 {
-    public class ActorModel
+    public class ActorModel : IEntityBase
     {
         [Key]
         public int Id { get; set; }

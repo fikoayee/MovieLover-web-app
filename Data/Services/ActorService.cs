@@ -5,8 +5,8 @@ using MovieLover.Models;
 
 namespace MovieLover.Data.Services
 {
-    public class MovieService : EntityBaseRepository<MovieModel>, IMovieService 
+    public class ActorService : EntityBaseRepository<ActorModel>, IActorService 
     {
-        public MovieService(MovieLoverContext context) : base(context) { }
+        public ActorService(MovieLoverContext context) : base(context) { }
     }
 }

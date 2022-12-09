@@ -1,10 +1,11 @@
 ﻿using MovieLover.Data;
+using MovieLover.Data.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieLover.Models
 {
-    public class MovieModel
+    public class MovieModel : IEntityBase
     {
         [Key]
         public int Id { get; set; }

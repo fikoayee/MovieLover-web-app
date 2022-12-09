@@ -12,6 +12,8 @@ builder.Services.AddDbContext<MovieLoverContext>();
 builder.Services.AddDbContext<MovieLoverContext>(
  options => options.UseSqlite(builder.Configuration["Data:C:\\Users\\Fifi\\AppData\\Local\\MovieLover33.db"]));
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IProducerService, ProducerService>();
+builder.Services.AddScoped<IActorService, ActorService>();
 var app = builder.Build();
 
 
