@@ -1,4 +1,6 @@
-﻿using MovieLover.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using MovieLover.Data.Static;
+using MovieLover.Models;
 
 namespace MovieLover.Data
 {
@@ -19,7 +21,7 @@ namespace MovieLover.Data
                     {
                         new ActorModel()
                         {
-                            Id = 1,
+                            
                             FullName = "Mike Myers",
                             DateOfBirth = new DateTime(1963, 05, 25),
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BMTY0MTM1MTM5Nl5BMl5BanBnXkFtZTcwNzA1OTM3MQ@@._V1_UY1200_CR82,0,630,1200_AL_.jpg",
@@ -39,7 +41,6 @@ namespace MovieLover.Data
                     {
                         new ProducerModel()
                         {
-                            Id = 1,
                             FullName = "Steven Spielberg",
                             DateOfBirth = new DateTime(1946, 12, 18),
                             Biography = "One of the most influential personalities in the history of cinema, Steven Spielberg is Hollywood's best known director and one of the wealthiest filmmakers in the world. He has an extraordinary number of commercially successful and critically acclaimed credits to his name, either as a director, producer or writer since launching the summer blockbuster with Jaws (1975), and he has done more to define popular film-making since the mid-1970s than anyone else.",
@@ -58,7 +59,6 @@ namespace MovieLover.Data
                     {
                         new MovieModel()
                         {
-                        Id = 1,
                         Name = "Shrek",
                         MovieCategory = MovieCategory.ForKids,
                         Description = "Shrek Shrek Shrek Shrek",
@@ -70,7 +70,6 @@ namespace MovieLover.Data
                         },
                         new MovieModel()
                         {
-                            Id = 2,
                             Name = "Shrek 2",
                             MovieCategory = MovieCategory.ForKids,
                             Description = "Shrek 2 Shrek 2 Shrek 2",
@@ -83,7 +82,6 @@ namespace MovieLover.Data
                         },
                         new MovieModel()
                         {
-                            Id = 3,
                             Name = "Shrek the Third",
                             MovieCategory = MovieCategory.ForKids,
                             Description = "Shrek the Third Shrek the Third Shrek the Third",
@@ -94,7 +92,6 @@ namespace MovieLover.Data
                         },
                         new MovieModel()
                         {
-                            Id = 4,
                             Name = "Shrek Forever After",
                             MovieCategory = MovieCategory.ForKids,
                             Description = "Shrek Forever After Shrek Forever After Shrek Forever After",
@@ -120,6 +117,51 @@ namespace MovieLover.Data
                         }
                     });
                     context.SaveChanges();
+                }
+            }
+        }
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+               
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                //Admins
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
+                var adminUser = await userManager.FindByEmailAsync("admin@mlover.com");
+                if (adminUser == null)
+                {
+                    var newAdminUser = new UserModel()
+                    {
+                        FullName = "Admin User",
+                        UserName = "admin",
+                        Email = "admin@mlover.com",
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newAdminUser, "Sddldz123!");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+
+                //Users
+
+                var user = await userManager.FindByEmailAsync("fdziubek@gmail.com");
+                if (user == null)
+                {
+                    var newUser = new UserModel()
+                    {
+                        FullName = "Filip Dziubek",
+                        UserName = "fifi",
+                        Email = "fdziubek@gmail.com",
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(newUser, "Sddldz123!");
+                    await userManager.AddToRoleAsync(newUser, UserRoles.User);
                 }
             }
         }
