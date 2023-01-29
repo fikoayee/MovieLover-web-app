@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace MovieLover.Data
+namespace MovieLover.Data.Static
 {
     public enum MovieCategory
     {

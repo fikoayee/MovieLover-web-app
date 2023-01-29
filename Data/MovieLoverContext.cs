@@ -7,11 +7,19 @@ using System.Collections.Generic;
 
 public class MovieLoverContext : IdentityDbContext<UserModel>
 {
-    public DbSet<RegisterModel> Registers { get; set; }
+    // base db
+    //public DbSet<RegisterModel> Registers { get; set; }
     public DbSet<MovieModel> Movies { get; set; }
     public DbSet<ActorModel> Actors { get; set; }
     public DbSet<ProducerModel> Producers { get; set; }
     public DbSet<ActorMovieModel> ActorsMovies { get; set; }
+
+    // orders
+    public DbSet<OrderItemModel> OrderItems { get; set; }
+    public DbSet<OrderModel> Orders { get; set; }
+    public DbSet<ShoppingCartItemModel> ShoppingCartItems { get; set; }
+
+    //
     public MovieLoverContext(DbContextOptions<MovieLoverContext> options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

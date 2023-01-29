@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieLover.Data.Services;
+using MovieLover.Data.Static;
 using MovieLover.Models;
 
 namespace MovieLover.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ActorController : Controller
     {
         private readonly IActorService _service;
@@ -12,8 +15,9 @@ namespace MovieLover.Controllers
         {
             _service = service;
         }
-        
-        // Details for a movie
+
+        // Details
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
@@ -21,9 +25,11 @@ namespace MovieLover.Controllers
             if (actorDetails == null)
                 return View("Empty");
             return View(actorDetails);
+
         }
 
-        // Show all movies
+        // Show all 
+        [AllowAnonymous]
         public async Task<IActionResult> Index() 
         {
             var data = await _service.GetAllAsync();
@@ -31,7 +37,7 @@ namespace MovieLover.Controllers
         }
 
 
-        // Add new movie
+        // Add new
         public IActionResult Create()
         {
             return View();
@@ -47,12 +53,12 @@ namespace MovieLover.Controllers
             return RedirectToAction("Index");
         }
 
-        // Update movie
+        // Update 
         public async Task<IActionResult> Update(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
             if (actorDetails == null)
-                return View("Empty");
+                return View("Index");
             return View(actorDetails);
         }
         [HttpPost]
@@ -60,13 +66,13 @@ namespace MovieLover.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Empty");
+                return View("Update");
             }
             await _service.UpdateAsync(id, actor);
             return RedirectToAction("Index");
         }
 
-        // Delete movie
+        // Delete 
         public async Task<IActionResult> Delete(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);

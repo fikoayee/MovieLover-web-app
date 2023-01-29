@@ -1,81 +1,98 @@
-﻿@using MovieLover.Data
+﻿@using MovieLover.Data.Static
+
+
 @model MovieModel;
 @{
     ViewData["Title"] = "Update movie";
-}
+}@if(User.IsInRole("ADMIN")){
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="row">
+        <div class="col-md-8 offset-2">
 
-<div class="row">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h4>Create a new movie</h4>
-        </p>
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Update">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <form asp-action="Update">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ReleaseDate" class="control-label"></label>
+                                    <input asp-for="ReleaseDate" type="date" class="form-control" />
+                                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Price" class="control-label"></label>
+                                    <input asp-for="Price" class="form-control" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ImageURL" class="control-label"></label>
+                                    <input asp-for="ImageURL" class="form-control" />
+                                    <span asp-validation-for="ImageURL" class="text-danger"></span>
+                                </div>
+
                             </div>
-                            <div class="form-group">
-                                <label asp-for="ReleaseDate" class="control-label"></label>
-                                <input asp-for="ReleaseDate" type="date" class="form-control" />
-                                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MovieCategory" class="control-label"></label>
+                                    <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                                    <span asp-validation-for="MovieCategory" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="LengthHours" class="control-label"></label>
+                                    <input asp-for="LengthHours" class="form-control" />
+                                    <span asp-validation-for="LengthHours" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="LengthMinutes" class="control-label"></label>
+                                    <input asp-for="LengthMinutes" class="form-control" />
+                                    <span asp-validation-for="LengthMinutes" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ProducerId" class="control-label"></label>
+                                    <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.ProducerId"></select>
+                                    <span asp-validation-for="ProducerId" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Price" class="control-label"></label>
-                                <input asp-for="Price" class="form-control" />
-                                <span asp-validation-for="Price" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ImageURL" class="control-label"></label>
-                                <input asp-for="ImageURL" class="form-control" />
-                                <span asp-validation-for="ImageURL" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ProducerId" class="control-label"></label>
-                                <input asp-for="ProducerId" class="form-control" />
-                                <span asp-validation-for="ProducerId" class="text-danger"></span>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Description" class="control-label"></label>
+                                    <textarea asp-for="Description" class="form-control"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="MovieCategory" class="control-label"></label>
-                                <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
-                                <span asp-validation-for="MovieCategory" class="text-danger"></span>
-                            </div>
+
+                        <div class="col-md-4 offset-4 text-center">
+                            <div class="body" style="height: 1em"></div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label asp-for="Description" class="control-label"></label>
-                                <textarea asp-for="Description" class="form-control"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" value="Update" class="btn btn-success float-right" style="width: 7em" />
+                            <a class="btn btn-secondary" asp-action="Index" style="width: 7em">Show all</a>
                         </div>
-                    </div>
+                        <div class="col-md-4 offset-4 text-center">
+                            <div class="body" style="height:em"></div>
+                        </div>
+                    </form>
+                    <form asp-action="DeleteConfirmed">
+                        <div class="form-group">
+                            <input asp-for="Id" hidden />
+                            <input type="submit" value="Delete" class="btn btn-danger float-right" style="width: 7em" />
 
-                    <div class="col-md-4 offset-4 text-center">
-                        <img width="100%" id="ImageUrlPreview" />
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
-                    </div>
-                </form>
-                <form asp-action="DeleteConfirmed">
-                    <div class="form-group">
-                        <input asp-for="Id" hidden/>
-                        <input type="submit" value="Delete" class="btn btn-danger float-right" />
-
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
+</body>
+}

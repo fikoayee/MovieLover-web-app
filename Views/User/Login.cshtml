@@ -1,28 +1,29 @@
-﻿@using MovieLover.Models;
-@model LoginModel
+﻿@using MovieLover.Data.ViewModels
+
+@model LoginVM
 
 @{
     ViewData["Title"] = "Log in";
 }
-
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
 <div class="row">
     <div class="col-md-6 offset-4">
         <p>
             <h4>Log in to Your account</h4>
         </p>
-        <div class="col-md-8 offset-0">
-            <div class="alert-danger">
-                @if (ViewData["LoginError"] != null)
+
+                @if (TempData["ErrorLogin"] != null)
                 {
-                    @ViewData["LoginError"]
+                <div class="col-md-12 alert alert-danger">
+                    @TempData["ErrorLogin"]
+                    </div>
                 }
-            </div>
-        </div>
 
 
         <div class="row">
             <div class="col-md-8 offset-0">
-                <form style="display: flex; flex-direction:column;" action="/user/verifyPassword">
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group">
                         <label asp-for="Email" class="control-label"></label>
@@ -36,12 +37,13 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group" style="padding-top: 10px;">
-                        <input class="btn btn-outline-success float-right" type="submit" asp-controller="User" asp-action="VerifyPassword" value="Log in" />
-                        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Cancel</a>
-                    </div>
+                    <div class="" style="padding-top: 10px; ">
+                        <input class="btn btn-success float-right" type="submit" value="Log in" />
+                            <a class="btn btn-primary float-left" asp-controller="User" asp-action="Register">Register</a>
+                    </div> 
                 </form>
             </div>
         </div>
     </div>
 </div>
+</body>

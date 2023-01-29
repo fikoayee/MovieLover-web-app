@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MovieLover.Data.Static
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,37 +11,60 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MovieLover</a>
+                <a class="navbar-brand" asp-controller="Movie" asp-action="Index">MovieLover</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Movie" asp-action="Index"><i class="bi bi-film"></i> All Movies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Movie" asp-action="Create"><i class="bi bi-film"></i> Add Movie</a>
-                        </li>
-                            <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-gear"></i> Movies
-                                </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-controller="" asp-action=""><i class="bi bi-camera-reels"></i> Action</a>
-                                    <a class="dropdown-item" asp-controller="" asp-action=""><i class="bi bi-headset"></i> Adventure</a>
-                                    <a class="dropdown-item" asp-controller="" asp-action=""><i class="bi bi-person-square"></i> Comedy</a>
-                                </div>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Actor" asp-action="Index">Actors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Producer" asp-action="Index">Producers</a>
+                        </li>
+
+
+
+                        <li class="nav-item dropdown align-content-center align-bottom">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> Category
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Action"><i class="bi bi-headset"></i> Action</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Adventure"><i class="bi bi-headset"></i> Adventure</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Comedy"><i class="bi bi-headset"></i> Comedy</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Drama"><i class="bi bi-headset"></i> Drama</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Horror"><i class="bi bi-headset"></i> Horror</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Romance"><i class="bi bi-headset"></i> Romance</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Sciencefiction"><i class="bi bi-headset"></i> Science Fiction</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Fantasy"><i class="bi bi-headset"></i> Fantasy</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Historical"><i class="bi bi-headset"></i> Historical</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Crime"><i class="bi bi-headset"></i> Crime</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.Documentary"><i class="bi bi-headset"></i> Documentary</a>
+                                <a class="dropdown-item" asp-controller="Movie" asp-action="SearchMovieByCategory" asp-route-category="@MovieCategory.ForKids"><i class="bi bi-headset"></i> For Kids</a>
+                            </div>
+                        </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" asp-controller="" asp-action="" style="padding-right: 10px; display:flex">
-                        <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Recipient's username" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+
+                    <partial name="_Identity.cshtml"></partial>
+
+                  
+
+
+                    <form class="form-inline my-2 my-lg-0" asp-controller="Movie" asp-action="SearchMovie" style="display:flex width:10rem">
+                        <input name="searchMovie" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i>Search</button>
                     </form>
+
+                    <ul class="navbar-nav">
+                        @await Component.InvokeAsync("ShoppingCartVC")
+                    </ul>
+
                 </div>
             </div>
         </nav>

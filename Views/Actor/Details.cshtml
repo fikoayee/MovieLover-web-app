@@ -1,0 +1,84 @@
+﻿@using MovieLover.Data
+@model ActorModel;
+@{
+    ViewData["Title"] = "Actor Details";
+}
+@{
+    //count age
+    DateTime birthDate =
+        Convert.ToDateTime(Model.DateOfBirth);
+    DateTime todayDate = DateTime.Today;
+    int age = todayDate.Year - birthDate.Year;
+    if (birthDate > todayDate.AddYears(-age))
+        age--;
+
+    DateTime birthDate2 =
+           Convert.ToDateTime(Model.DateOfBirth);
+    DateTime deathDate = Convert.ToDateTime(Model.DateOfDeath);
+    int age2 = deathDate.Year - birthDate2.Year;
+    if (birthDate > deathDate.AddYears(-age2))
+        age2--;
+}
+
+
+
+
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+<div class="row" style="height:1em"></div>
+    <div class="col-md-4 col-xs-6 border-primary mb-3">
+        <div class="card mb-3" style="width: 60em; background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header text-blackbg-info">
+                        <p class="card-text">
+                            <h5 class="card-title" >
+                                @Model.FullName
+                            </h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.ImageURL" width="100%" alt="@Model.FullName">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b>Age: </b>
+                            @if ((Model.DateOfDeath > Model.DateOfBirth))
+                                @age2
+                            else
+                                @age
+
+                            </p>
+                        <p class="card-text"><b>Birth Date: </b>@Model.DateOfBirth.ToString("dd MMM yyyy")</p>
+                        @if (Model.DateOfDeath > Model.DateOfBirth)
+                        {
+                            <p class="card-text"><b>Death Date: </b>@Model.DateOfDeath?.ToString("dd MMM yyyy")</p>
+                        }
+                        <p class="card-text"><b>Birth Place: </b>@Model.PlaceOfBirthCity, @Model.PlaceOfBirthCountry</p>
+                        <p class="card-text"><b>Biography:</b> @Model.Biography</p>
+
+                    </div>
+                </div>
+                <div class="col-md-12" >
+                    <div class="card-footer " style="height: 4em">
+                        <p class="card-text">
+                            <a class="btn btn-primary float-left" asp-action="Index">
+                                Show all Actors
+                            </a>
+                            @if (User.IsInRole("ADMIN"))
+                                {
+                            <a class="btn btn-primary float-right" asp-action="Update" asp-route-id="@Model.Id">
+                                Manage
+                            </a>
+                                }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+

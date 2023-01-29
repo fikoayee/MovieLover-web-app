@@ -1,15 +1,17 @@
 ﻿@using MovieLover.Data
 @model MovieModel;
 @{
-    ViewData["Title"] = "Details for movie";
+    ViewData["Title"] = "Movie Details";
 }
 
-<div class="row">
-    <div class="col-md-8 offset-2">
-        <div class="card mb-12">
+
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="row" style="height:1em"></div>
+    <div class="col-md-4 col-xs-6 border-primary mb-3">
+        <div class="card mb-3" style="width: 60em; background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);">
             <div class="row g-0">
                 <div class="col-md-12">
-                    <div class="card-header text-white bg-info">
+                    <div class="card-header text-blackbg-info">
                         <p class="card-text">
                             <h5 class="card-title">
                                 @Model.Name
@@ -20,30 +22,62 @@
                 <div class="col-md-4">
                     <img src="@Model.ImageURL" width="100%" alt="@Model.Name">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="card-body">
                         <p class="card-text">@Model.Description</p>
-                        <p class="card-text"><b> Producer: </b></p>
-                        </p>
+
+                        <p class="card-text">
+                            <b> Producer:</b>
+                            <a asp-controller="Producer" asp-action="Details" asp-route-id="@Model.ProducerId">
+                                @Model.Producer.FullName
+                            </a>
+
                         <p class="card-text"><b>Category: </b>@Model.MovieCategory</p>
                         <p class="card-text"><b>Release Date: </b>@Model.ReleaseDate.ToString("dd MMM yyyy")</p>
-                        <p class="card-text"><b>Movie Length: </p>
-                        <p class="card-text"><b>Actors: </b></p>
+                        <p class="card-text"><b>Movie Length: </b>@Model.LengthHours.ToString():@Model.LengthMinutes.ToString("00")</p>
+
+                        <p class="card-text">
+                            <b>Actors:</b>
+                        </p>
+                        <hr />
+                        <div class="row" style="row-gap: 1em; column-gap: 1em; width: 40em">
+                                @foreach (var actor in Model.ActorsMovies)
+                                {
+                                <div class="container;" style="width: 10rem; height: 11.5rem;">
+                                    <img class="border-info rounded-circle" src="@actor.Actor.ImageURL" style="width: 9rem; height: 9rem;" />
+                                    <a asp-controller="Actor" asp-action="Details" asp-route-id=@actor.ActorId>
+                                        <p class="text-center">@actor.Actor.FullName</p>
+                                    </a>
+                                </div>
+                                }
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="card-footer">
+                    <div class="card-footer " style="height: 4em">
                         <p class="card-text">
-                            <a class="btn btn-outline-primary float-right" asp-action="Index">
-                                Back to List
+                            <a class="btn btn-primary float-left mr-3" asp-action="Index">
+                                Show all Movies
                             </a>
-                            <a class="btn btn-outline-primary float-right" asp-action="Update" asp-route-id="@Model.Id">
-                                Manage
-                            </a>                          
+                            <a class="btn btn-success text-white" asp-controller="Order" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
+                                <i class="bi bi-cart-plus"></i>add $@Model.Price.ToString()
+                            </a>
+                            @if (User.IsInRole("ADMIN"))
+                            {
+                                <a class="btn btn-primary float-right" asp-action="Update" asp-route-id="@Model.Id">
+                                    Manage
+                                </a>
+                            }
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
+</body>
+
+
+
+

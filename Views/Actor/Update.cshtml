@@ -1,0 +1,91 @@
+﻿@model ActorModel;
+
+@{
+    ViewData["Title"] = "Update Actor";
+}
+@if (User.IsInRole("ADMIN"))
+{
+    <body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+        <div class="row text">
+            <div class="col-md-8 offset-2">
+                <p>
+
+                </p>
+                <div class="row">
+                    <div class="col-md-8 offset-2">
+                        <form asp-action="Update">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FullName" class="control-label"></label>
+                                        <input asp-for="FullName" class="form-control" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="DateOfBirth" class="control-label"></label>
+                                        <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                    </div>                            <div class="form-group">
+                                        <label asp-for="DateOfDeath" class="control-label"></label>
+                                        <input asp-for="DateOfDeath" type="date" class="form-control" />
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="PlaceOfBirthCity" class="control-label"></label>
+                                        <input asp-for="PlaceOfBirthCity" class="form-control" />
+                                        <span asp-validation-for="PlaceOfBirthCity" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="PlaceOfBirthCountry" class="control-label"></label>
+                                        <input asp-for="PlaceOfBirthCountry" class="form-control" />
+                                        <span asp-validation-for="PlaceOfBirthCountry" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="ImageURL" class="control-label"></label>
+                                        <input asp-for="ImageURL" class="form-control" />
+                                        <span asp-validation-for="ImageURL" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label asp-for="Biography" class="control-label"></label>
+                                        <textarea asp-for="Biography" class="form-control" style="height: 20em"></textarea>
+                                        <span asp-validation-for="Biography" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 offset-4 text-center">
+                                <div class="body" style="height: 1em"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Update" class="btn btn-success float-right" style="width: 7em" />
+                                <a class="btn btn-secondary" asp-action="Index" style="width: 7em">Show all</a>
+                            </div>
+                            <div class="col-md-4 offset-4 text-center">
+                                <div class="body" style="height:em"></div>
+                            </div>
+                        </form>
+                        <form asp-action="DeleteConfirmed">
+                            <div class="form-group">
+                                <input asp-for="Id" hidden />
+                                <input type="submit" value="Delete" class="btn btn-danger float-right" style="width: 7em" />
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+}

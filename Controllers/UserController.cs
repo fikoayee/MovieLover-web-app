@@ -1,63 +1,122 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using MovieLover.Models;
-//using System.Reflection.Emit;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MovieLover.Data.Services;
+using MovieLover.Data.Static;
+using MovieLover.Data.ViewModels;
+using MovieLover.Models;
 
-//namespace MovieLover.Controllers
-//{
-//    public class UserController : Controller
-//    {
-//        public IActionResult Index()
-//        {
-//            return View();
-//        }
+namespace movielover.controllers
+{
+    public class UserController : Controller
+    {
+        private readonly UserManager<UserModel> _userManager;
+        private readonly SignInManager<UserModel> _signInManager;
+        private readonly MovieLoverContext _context;
 
-//        public IActionResult Register()
-//        {
-//            return View();
-//        }
-        
-//        [HttpPost]
-//        public IActionResult Register(RegisterModel register)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                using (var db = new MovieLoverContext())
-//                {
-//                    db.Add(register);
-//                    db.SaveChanges();
-//                    return View("Views/User/RegisterCompleted.cshtml");
-//                }
-//            }
+   
+        public UserController(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, MovieLoverContext context)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = context;
+        }
 
-//            return View();
-//        }
+        // ------------ LOG IN -------------------
+        public IActionResult Login()
+        {
+            return View(new LoginVM());
+        }
 
-//        public IActionResult Login()
-//        {
-//            return View();
-//        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM login)
+        {
+            if (!ModelState.IsValid)
+                return View(login);
+            
+            var user = await _userManager.FindByEmailAsync(login.Email);
+            if (user != null)
+            {
+                var password = await _userManager.CheckPasswordAsync(user, login.Password);
+                if (password)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Movie");
+                    }
+                }
+                TempData["ErrorLogin"] = "Incorrect username or/and password.";
+                return View(login);
+            }
+            TempData["ErrorLogin"] = "Incorrect username or/and password.";
+            return View(login);
+        }
 
-//        public ActionResult VerifyPassword(LoginModel user)
-//        {
-//            //The ".FirstOrDefault()" method will return either the first matched
-//            //result or null
-//            var db = new MovieLoverContext();
+        // ------------ REGISTER -------------------
+        public IActionResult Register()
+        {
+            return View(new RegisterVM());
+        }
 
-//            var myUser = db.Registers
-//                .FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM register)
+        {
+            if (!ModelState.IsValid)
+                return View(register);
 
-//            if (myUser != null)
-//            {
-//                return View("Views/Home/Index.cshtml");
-//            }
-//            else
-//            {
-//                ViewData["LoginError"] = "Invalid username or/and password!";
-//                return View("Views/User/Login.cshtml");
+            var user = await _userManager.FindByEmailAsync(register.Email);
+            if (user != null)
+            {
+                TempData["ErrorMail"] = "This email is already in use";
+                return View(register);
+            }
+            
+            var newUser = new UserModel()
+            {
+                
+                FullName = register.FullName,
+                UserName = Username(register.Email),
+                Email = register.Email,
+            };
+            var newUserCreate = await _userManager.CreateAsync(newUser, register.Password);
 
-//            }
+            if (newUserCreate.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            }
+            return View("RegisterCompleted");
+        }
 
-//        }
+        public string Username(string fullName)
+        {
+            string[] fullNameSplit = fullName.Split('@');
+            return fullNameSplit[0];
+        }
 
-//    }
-//}
+        // ------------ LOG OUT -------------------
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Movie");
+        }
+
+        // Admin page to show all users
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> UserListAll()
+        {
+
+            var users = await _context.Users.ToListAsync();
+            return View(users);
+        }
+
+        // ---------- ACCESS DENIED --------
+        public async Task<IActionResult> AccessDenied()
+        {
+            return View();
+        }
+    }
+}

@@ -1,0 +1,36 @@
+﻿@model List<UserModel>;
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+@if(User.IsInRole("ADMIN"))
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+
+                <th>User Id</th>
+                <th>User Email</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">@item.Id</td>
+                    <td class="align-middle">@item.Email</td>
+                    <td class="align-middle">      </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+
+                </td>
+                <td>                    <b>Total number of users: @Model.Count()</b></td>
+                
+            </tr>
+        </tfoot>
+    </table>
+}
+</body>

@@ -7,18 +7,23 @@ namespace MovieLover.Models
     {
         [Key]
         public int Id { get; set; }
-        [RegularExpression(@"^[a-zA-Z]{1,40}$", ErrorMessage = "Full name must contain only letters. Please try again.")]
+        [RegularExpression(@"^[A-Za-z  ,-]+$", ErrorMessage = "Full name must contain only letters. Please try again.")]
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
         public string Biography { get; set; }
+        [Display(Name = "Birt Date")]
         public DateTime DateOfBirth { get; set; }
-        public DateTime DateOfDeath { get; set; }
-        [RegularExpression(@"^[a-zA-Z]{1,20}$", ErrorMessage = "This field must contain only letters. Please try again.")]
+        [Display(Name = "Death Date")]
+        public DateTime? DateOfDeath { get; set; }
+        [RegularExpression(@"^[A-Za-z  ,]+$", ErrorMessage = "This field must contain only letters. Please try again.")]
+        [Display(Name = "Birth City")]
         public string PlaceOfBirthCity { get; set;  }
-        [RegularExpression(@"^[a-zA-Z]{1,20}$", ErrorMessage = "This field must contain only letters. Please try again.")]
+        [RegularExpression(@"^[A-Za-z  ,]+$", ErrorMessage = "This field must contain only letters. Please try again.")]
+        [Display(Name = "Birh Country")]
         public string PlaceOfBirthCountry { get; set; }
-        public string ImageURL { get; set; }
+        public string? ImageURL { get; set; }
 
         //relationhsips
-        public List<ActorMovieModel> ActorsMovies { get; set; }
+        public List<ActorMovieModel>? ActorsMovies { get; set; }
     }
 }

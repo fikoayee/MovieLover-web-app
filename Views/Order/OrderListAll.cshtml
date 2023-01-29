@@ -1,0 +1,55 @@
+﻿@model List<OrderModel>;
+
+@{
+    ViewData["Title"] = "All completed orders - admin view";
+}
+@if (User.IsInRole("ADMIN"))
+{
+    <body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <p>
+                    <h4>List of all completed orders</h4>
+                </p>
+                <table class="table table-striped border-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Movie(s)</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td class="align-middle" align="center"><b>@order.Id</b></td>
+                                <td class="align-middle">
+                                    <ul style="list-style-type:none">
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <li>
+                                                <div class="alert alert-success">
+                                                    <span class="badge bg-success">$@item.Price - @item.Movie.Name</span>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td class="align-middle">
+                                    <b>$@order.OrderItems.Select(m => m.Movie.Price).Sum()</b>
+                                </td>
+                                <td class="align-middle">
+                                    <b>@order.Email</b>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </body>
+}

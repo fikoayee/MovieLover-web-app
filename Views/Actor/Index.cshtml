@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ActorModel>
+@{
+    ViewData["Title"] = "List of Actors";
+}
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="row" style="height: 2em;"></div>
+    <div class="row" style="row-gap: 6em; column-gap: 3em;">
+
+    @foreach (var actor in Model)
+    {
+        <div class="container;" style="width: 13rem; height: 12rem;">
+            <img class="border-info rounded-circle" src="@actor.ImageURL" style="width: 13rem; height: 12rem;" />
+            <a asp-controller="Actor" asp-action="Details" asp-route-id=@actor.Id>
+                <p class="text-center">@actor.FullName</p>
+            </a>
+        </div>
+    }
+</div>
+</body>

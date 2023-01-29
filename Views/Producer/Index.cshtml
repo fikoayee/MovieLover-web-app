@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ProducerModel>
+@{
+    ViewData["Title"] = "Actors";
+}
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="row" style="height: 2em;"></div>
+    <div class="row" style="row-gap: 6em; column-gap: 3em;">
+
+        @foreach (var producer in Model)
+        {
+            <div class="container;" style="width: 13rem; height: 12rem;">
+                <img class="border-info rounded-circle" src="@producer.ImageURL" style="width: 13rem; height: 12rem;" />
+                <a asp-controller="Producer" asp-action="Details" asp-route-id=@producer.Id>
+                    <p class="text-center">@producer.FullName</p>
+                </a>
+            </div>
+        }
+    </div>
+</body>

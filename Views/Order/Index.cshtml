@@ -1,0 +1,80 @@
+﻿@using MovieLover.Data
+@using MovieLover.Data.ViewModels
+@model ShoppingCartVM
+
+@{
+    ViewData["Title"] = "Shopping Cart Summary";
+}
+@if(User.Identity.IsAuthenticated){
+<body style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+<div class="row">
+    <div class="col-md-12 offset-1-2">
+        <div class="text-center">
+            <h2>
+                Your shopping cart summary
+            </h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Movie</th>
+                    <th>Price</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+            {
+                <tr>
+                    
+                        <td class="d-flex align-items-center">
+                            <img src="@item.Movie.ImageURL"
+                             alt=""
+                             style="width: 45px; height: 45px"
+                             class="rounded-circle" />
+
+
+                    <td class="align-middle">@item.Movie.Name</td>
+                    <td class="align-middle">$@item.Movie.Price</td>
+                    <td class="align-middle">
+                        <a class="text-danger" asp-controller="Order" asp-action="RemoveItemFromShoppingCart" asp-route-id="@item.Movie.Id">
+                                    <input type="submit" value="Remove" class="btn btn-danger float-right" style="width: 7em" />
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <b>$@Model.PriceTotal</b>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+            <div class="text-center">
+                <div class="btn-group">
+                    <a>
+                        <a class="btn btn-primary float-right" style="width:8rem" asp-controller="Movie" asp-action="Index">
+                            Add More
+                        </a>
+                        <div class="col-md-1"></div>
+                        <a class="btn btn-success float-right" style="width:12rem" asp-controller="Order" asp-action="CompleteOrder">
+                            Complete Order
+                        </a>
+
+                    </a>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+</body>
+}
