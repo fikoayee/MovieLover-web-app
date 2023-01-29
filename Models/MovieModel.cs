@@ -18,6 +18,7 @@ namespace MovieLover.Models
         [Display(Name = "Release Date")]
         [Required(ErrorMessage = "Release date is required")]
         public DateTime ReleaseDate { get; set; }
+        [Display(Name = "Movie Category")]
         public MovieCategory MovieCategory { get; set; }
         [Required(ErrorMessage = "Image is required")]
         public string? ImageURL { get; set; }
@@ -30,6 +31,7 @@ namespace MovieLover.Models
         public List<ActorMovieModel>? ActorsMovies { get; set; }
 
         //producer
+        [Display(Name = "Producer")]
         public int ProducerId { get; set; }
         [ForeignKey("ProducerId")]
         public ProducerModel? Producer { get; set; }

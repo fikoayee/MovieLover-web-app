@@ -11,7 +11,6 @@ namespace MovieLover.Data.ViewModels
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         public string Description { get; set; }
-        [RegularExpression(@"^[0-9]{1,2}([.][0-9]{1,2})?$", ErrorMessage = "The value is not valid")]
         [Required(ErrorMessage = "Price is required")]
         public double Price { get; set; }
         [Display(Name = "Release Date")]
